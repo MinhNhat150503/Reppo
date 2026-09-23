@@ -28,7 +28,13 @@ public class User {
     @Column(nullable = false)
     private String timezone;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private Instant createdAt;
+
+    @PrePersist
+    public void onCreate() {
+        this.createdAt = Instant.now();
+    }
+
 
 }
