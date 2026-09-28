@@ -1,11 +1,12 @@
 package com.reppo.backend.entity;
 
-import com.reppo.backend.entity.User;
 import com.reppo.backend.enums.SplitType;
 
 import jakarta.persistence.*;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 import lombok.Setter;
 import lombok.Getter;
@@ -25,6 +26,9 @@ public class Workout {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @OneToMany(mappedBy = "workout")
+    private List<ExerciseLog> exerciseLogs = new ArrayList<>();
 
     @Column(nullable = false)
     private Instant performedAt;
