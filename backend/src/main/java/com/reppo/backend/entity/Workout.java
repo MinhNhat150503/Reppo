@@ -8,6 +8,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.AccessLevel;
 import lombok.Setter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,7 @@ public class Workout {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ExerciseLog> exerciseLogs = new ArrayList<>();
 
@@ -38,4 +40,16 @@ public class Workout {
     private SplitType splitType;
 
     private String note;
+
+    public void addExerciseLog(ExerciseLog log) {
+        this.exerciseLogs.add(log);
+
+        log.setWorkout(this);
+    }
+
+        public void removeExerciseLog(ExerciseLog log) {
+            this.exerciseLogs.remove(log);
+
+            log.setWorkout(null);
+        }
 }
